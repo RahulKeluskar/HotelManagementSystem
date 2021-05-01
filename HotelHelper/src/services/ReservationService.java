@@ -1,6 +1,6 @@
-package Services;
+package services;
 
-import Entities.ReservedRoom;
+import entities.ReservedRoom;
 
 import java.util.List;
 
