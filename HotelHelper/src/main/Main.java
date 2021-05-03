@@ -12,6 +12,9 @@ public class Main {
         menuObject.run();
     }
 
+    public Main() {
+    }
+
     public String getMainMenuString(){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Welcome to the hotel management portal:\nPlease select from one of the options given below\n");

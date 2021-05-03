@@ -7,6 +7,35 @@ public class Room {
     private String roomType;
     private String currentReservationIds;
 
+    public Room(){}
+    public Room(String id) {
+        this.id = id;
+    }
+
+
+    public Room(String id, String roomNumber, Float roomPrice, String roomType, String currentReservationIds) {
+        this.id = id;
+        this.roomNumber = roomNumber;
+        this.roomPrice = roomPrice;
+        this.roomType = roomType;
+        this.currentReservationIds = currentReservationIds;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id='" + id + '\'' +
+                ", roomNumber='" + roomNumber + '\'' +
+                ", roomPrice=" + roomPrice +
+                ", roomType='" + roomType + '\'' +
+                ", currentReservationIds='" + currentReservationIds + '\'' +
+                '}';
+    }
+
+    public void printRoomDetails() {
+        System.out.println(this.toString());
+    }
+
     public String getId() {
         return id;
     }
