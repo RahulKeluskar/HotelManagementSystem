@@ -1,2 +1,4 @@
-package validations;public class UserValidations {
+package validations;
+
+public class UserValidations {
 }

@@ -31,16 +31,33 @@ public class RoomService {
     public Boolean updateRoom(Room room){
         int selection;
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n\n\t\tWelcome to Room Update Menu\n\n");
-        System.out.println("Choose the option you want to update\n1.Room Price\n2. Current Reservation Ids\n");
-        System.out.print("\nYour choice : ");
-        selection = sc.nextInt();
+        do {
+            System.out.println("\n\n\t\tWelcome to Room Update Menu\n\n");
+            System.out.println("Choose the option you want to update\n1. Room Price\n2. Current Reservation Ids\n");
+            System.out.print("\nYour choice : ");
+            while(!sc.hasNextInt())
+            {
+                System.out.println("\n\nPlease enter a valid integer value.\n");
+                System.out.print("\nYour choice : ");
+                sc.next();
+            }
+            selection = sc.nextInt();
+            if(selection==0)
+                System.out.println("\n\nPlease select correct option.\n");
+        }
+        while (selection<=0);
+
         switch (selection)
         {
             case 1 :
                 System.out.println("\n\nCurrent price of the Room is : "+ room.getRoomPrice());
                 System.out.print("\n\nEnter the new price of the Room : ");
                 sc = new Scanner(System.in);
+                while(!sc.hasNextFloat())
+                {
+                    System.out.print("\n\nPlease enter a valid value : ");
+                    sc.next();
+                }
                 Float price = sc.nextFloat();
                 room.setRoomPrice(price);
                 System.out.println("\n\nRoom Price is updated.\n\n");
@@ -49,12 +66,17 @@ public class RoomService {
                 System.out.println("\n\nCurrent Reservation Id's of the Room is : "+ room.getCurrentReservationId());
                 System.out.print("\n\nEnter the new Current Reservation Id's of the Room : ");
                 sc = new Scanner(System.in);
+                while(!sc.hasNextFloat())
+                {
+                    System.out.print("\n\nPlease enter a valid value : ");
+                    sc.next();
+                }
                 String ids = sc.nextLine();
                 room.setCurrentReservationId(ids);
                 System.out.println("\n\nReservation Id's are updated.\n\n");
                 return true;
             default:
-                System.out.println("You seemed to have entered wrong option.");
+                System.out.println("\n\nYou seemed to have entered wrong option.\n\n");
                 return false;
         }
     }
