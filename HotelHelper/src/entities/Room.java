@@ -1,24 +1,32 @@
 package entities;
 
+import java.util.Vector;
+
 public class Room {
     private String id;
     private String roomNumber;
     private Float roomPrice;
     private String roomType;
-    private String currentReservationIds;
+    private String currentReservationId;
+    private Vector<String> reservationId;
+
 
     public Room(){}
     public Room(String id) {
         this.id = id;
     }
 
-
-    public Room(String id, String roomNumber, Float roomPrice, String roomType, String currentReservationIds) {
+    public Room(String id, String roomNumber, Float roomPrice, String roomType, String currentReservationId,Vector<String> reservationId) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.roomPrice = roomPrice;
         this.roomType = roomType;
-        this.currentReservationIds = currentReservationIds;
+        this.currentReservationId = currentReservationId;
+        this.reservationId=reservationId;
+    }
+
+    public void printRoomDetails() {
+        System.out.println(this.toString());
     }
 
     @Override
@@ -28,51 +36,56 @@ public class Room {
                 ", roomNumber='" + roomNumber + '\'' +
                 ", roomPrice=" + roomPrice +
                 ", roomType='" + roomType + '\'' +
-                ", currentReservationIds='" + currentReservationIds + '\'' +
+                ", currentReservationId='" + currentReservationId + '\'' +
+                ", reservationId=" + reservationId +
                 '}';
-    }
-
-    public void printRoomDetails() {
-        System.out.println(this.toString());
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getRoomNumber() {
         return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
     }
 
     public Float getRoomPrice() {
         return roomPrice;
     }
 
-    public void setRoomPrice(Float roomPrice) {
-        this.roomPrice = roomPrice;
-    }
-
     public String getRoomType() {
         return roomType;
+    }
+
+    public String getCurrentReservationId() {
+        return currentReservationId;
+    }
+
+    public Vector<String> getReservationId() {
+        return reservationId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public void setRoomPrice(Float roomPrice) {
+        this.roomPrice = roomPrice;
     }
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
 
-    public String getCurrentReservationIds() {
-        return currentReservationIds;
+    public void setCurrentReservationId(String currentReservationId) {
+        this.currentReservationId = currentReservationId;
     }
 
-    public void setCurrentReservationIds(String currentReservationIds) {
-        this.currentReservationIds = currentReservationIds;
+    public void setReservationId(Vector<String> reservationId) {
+        this.reservationId = reservationId;
     }
 }

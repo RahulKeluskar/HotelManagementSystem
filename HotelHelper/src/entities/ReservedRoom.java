@@ -1,11 +1,12 @@
 package entities;
 
 import java.util.Date;
+import java.util.Vector;
 
 public class ReservedRoom {
     private String id;
     private String roomId;
-    private String userId;
+    private Vector<String> userId;
     private Date startDate;
     private Date endDate;
 
@@ -25,11 +26,11 @@ public class ReservedRoom {
         this.roomId = roomId;
     }
 
-    public String getUserId() {
+    public Vector<String> getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Vector<String> userId) {
         this.userId = userId;
     }
 
