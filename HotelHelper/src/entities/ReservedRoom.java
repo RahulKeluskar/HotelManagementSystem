@@ -10,6 +10,14 @@ public class ReservedRoom {
     private Date startDate;
     private Date endDate;
 
+    public ReservedRoom(String id, String roomId, Vector<String> userId, Date startDate, Date endDate) {
+        this.id = id;
+        this.roomId = roomId;
+        this.userId = userId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getId() {
         return id;
     }
