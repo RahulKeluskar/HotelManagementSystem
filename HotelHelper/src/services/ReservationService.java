@@ -9,50 +9,61 @@ import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+import db.FileHandler;
+
 public class ReservationService {
 
-//    public static void main(String args[]) {
-//        //
-//        Vector<ReservedRoom> reservations = new Vector<ReservedRoom>();
-//        String id = "14";
-//        String roomId = "1234";
-//        Vector<String> users = new Vector<String>();
-//
-//        Calendar cal = Calendar.getInstance();
-//        cal.set(2013, Calendar.JANUARY, 14); // Year, month and day of month
-//        Date startDate = (Date) cal.getTime();
-//        cal.set(2013, Calendar.JANUARY, 19); // Year, month and day of month
-//        Date endDate = (Date) cal.getTime();
-//        ReservedRoom rs = new ReservedRoom(id, roomId, users, startDate, endDate);
-//
-//        reservations.add(rs);
-//
-//        cal.set(2013, Calendar.JANUARY, 10); // Year, month and day of month
-//        startDate = (Date) cal.getTime();
-//        cal.set(2013, Calendar.JANUARY, 20); // Year, month and day of month
-//        endDate = (Date) cal.getTime();
-//        rs = new ReservedRoom("13", roomId, users, startDate, endDate);
-//        reservations.add(rs);
-//
-//        cal.set(2013, Calendar.JANUARY, 10); // Year, month and day of month
-//        startDate = (Date) cal.getTime();
-//
-//        cal.set(2013, Calendar.JANUARY, 16); // Year, month and day of month
-//        endDate = (Date) cal.getTime();
-//
-//        ReservationService reservationService = new ReservationService();
-//        // Vector<String> rd = reservationService.getReservedIds(reservations,
-//        // startDate, endDate);
-//        // for (String number : rd) {
-//        // System.out.println("Number = " + number);
-//        // }
-//
+    public static void main(String args[]) {
+        //For testing..
+    	//Don't forget to delete it
+        Vector<ReservedRoom> reservations = new Vector<ReservedRoom>();
+        String id = "14";
+        String roomId = "1234";
+        Vector<String> users = new Vector<String>();
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2013, Calendar.JANUARY, 14); // Year, month and day of month
+        Date startDate = (Date) cal.getTime();
+        cal.set(2013, Calendar.JANUARY, 19); // Year, month and day of month
+        Date endDate = (Date) cal.getTime();
+        ReservedRoom rs = new ReservedRoom(id, roomId, users, startDate, endDate);
+
+        reservations.add(rs);
+
+        cal.set(2013, Calendar.JANUARY, 10); // Year, month and day of month
+        startDate = (Date) cal.getTime();
+        cal.set(2013, Calendar.JANUARY, 20); // Year, month and day of month
+        endDate = (Date) cal.getTime();
+        rs = new ReservedRoom("13", roomId, users, startDate, endDate);
+        reservations.add(rs);
+
+        cal.set(2013, Calendar.JANUARY, 10); // Year, month and day of month
+        startDate = (Date) cal.getTime();
+
+        cal.set(2013, Calendar.JANUARY, 16); // Year, month and day of month
+        endDate = (Date) cal.getTime();
+
+        ReservationService reservationService = new ReservationService();
+        // Vector<String> rd = reservationService.getReservedIds(reservations,
+        // startDate, endDate);
+        // for (String number : rd) {
+        // System.out.println("Number = " + number);
+        // }
+
 //        Vector<String> rd = new Vector<String>();
 //        rd.add("13");
 //        boolean val = reservationService.isRoomFreeForGivenDate(rd, reservations, endDate);
 //        System.out.print(val);
-//
-//    }
+        //	rs = new ReservedRoom("15", roomId, users, startDate, endDate);
+        //reservations.add(rs);
+        FileHandler fh = new FileHandler();
+        //fh.writeReservationFile(reservations, "reservations.ser");
+        fh.readReservationFile("reservations.ser");
+       fh.appendReservationToFile(rs, "reservations.ser");
+        System.out.println("............................................");
+        fh.readReservationFile("reservations.ser");
+
+    }
 
     // public List<ReservedRoom> getFreeRooms(){
     // return null;

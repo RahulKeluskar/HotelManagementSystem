@@ -1,9 +1,10 @@
 package entities;
 
 import java.util.Date;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class ReservedRoom {
+public class ReservedRoom implements Serializable{
     private String id;
     private String roomId;
     private Vector<String> userId;
@@ -56,5 +57,10 @@ public class ReservedRoom {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+    @Override
+    public String toString() {
+        return new StringBuffer(" \nId: ").append(this.id)
+                .append(" \nRoom Id : ").append(this.roomId).append(" \nUsers : ").append(this.userId.toString()).append(" \nStart Date : ").append(this.startDate).append(" \nEnd Date : ").append(this.endDate).toString();
     }
 }
