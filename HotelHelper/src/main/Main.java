@@ -1,9 +1,13 @@
 package main;
 
+import db.FileHandler;
+import entities.User;
+import services.UserService;
 import util.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Main {
@@ -15,10 +19,10 @@ public class Main {
     public String getMainMenuString(){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Welcome to the hotel management portal:\nPlease select from one of the options given below\n");
-        stringBuffer.append("1. User Management ((Update, Delete or View User Information)");
-        stringBuffer.append("2. Room Management (Update, Delete or View Room Information)");
-        stringBuffer.append("3. Room Reservation");
-        stringBuffer.append("4. Display Payment information");
+        stringBuffer.append("\t1. User Management ((Update, Delete or View User Information)");
+        stringBuffer.append("\n\t2. Room Management (Update, Delete or View Room Information)");
+        stringBuffer.append("\n\t3. Room Reservation");
+        stringBuffer.append("\n\t4. Display Payment information");
         return stringBuffer.toString();
     }
 
@@ -55,6 +59,24 @@ public class Main {
         Integer choice;
         while(menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)){
             choice = Integer.parseInt(input);
+        }
+        insertNewUser();
+
+        getAllUsers();
+
+
+    }
+
+
+    public void insertNewUser() throws IOException {
+        UserService userService = new UserService();
+        FileHandler.insertSingleUserIntoFile(userService.addUser());
+    }
+
+    public void getAllUsers(){
+        UserService userService = new UserService();
+        for(User user: userService.getAllUsers() ){
+            System.out.println(user);
         }
     }
 }
