@@ -62,27 +62,23 @@ public class FileHandler implements java.io.Serializable{
 	}
 	public void appendReservationToFile(ReservedRoom rs , String fileName)
 	{
-//		try {
-//			 File file = new File(".\\"+fileName);
-//		      FileOutputStream fos = new FileOutputStream(file,true);
-//		      if(!file.exists())
-//		      {
-//		    	  System.out.println("File doesn't exist");
-//		      }
-//		      ObjectOutputStream oos = new ObjectOutputStream(fos);
-//		      // Write objects to file
-//		      oos.writeObject(rs);
-//		      oos.flush();
-//		      oos.close();
-//		      fos.close();
-//			
-//		      
-//		    }
-//		    catch (IOException e){
-//		      e.printStackTrace();
-//		    }
-		
-		//Correct this method. appending not working
+	    /*
+	    The file must exist for this method to work that is the only catch
+	    File output stream class adds stream headers every time there is a new entry added to file
+	    That's why we are using our overridden class so that so that new stream headers aren't added everytime and we can read
+	    the content of the file
+	     */
+        try(AppendableObjectOutputStream oos =
+                    new AppendableObjectOutputStream(new FileOutputStream(fileName, true))){
+            oos.writeObject(rs);
+            System.out.println("Successfully Inserted");
+            oos.flush();
+            oos.reset();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
   
    public static void insertUsersIntoFile(List<User> users){
