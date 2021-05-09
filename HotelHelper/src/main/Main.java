@@ -16,13 +16,18 @@ public class Main {
         menuObject.run();
     }
 
+    public Main() {
+    }
+
     public String getMainMenuString(){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Welcome to the hotel management portal:\nPlease select from one of the options given below\n");
-        stringBuffer.append("\t1. User Management ((Update, Delete or View User Information)");
-        stringBuffer.append("\n\t2. Room Management (Update, Delete or View Room Information)");
-        stringBuffer.append("\n\t3. Room Reservation");
-        stringBuffer.append("\n\t4. Display Payment information");
+
+        stringBuffer.append("1. User Management ((Update, Delete or View User Information)");
+        stringBuffer.append("\n2. Room Management (Update, Delete or View Room Information)");
+        stringBuffer.append("\n3. Room Reservation");
+        stringBuffer.append("\n4. Display Payment information");
+
         return stringBuffer.toString();
     }
 
