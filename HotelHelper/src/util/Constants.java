@@ -2,8 +2,8 @@ package util;
 
 public class Constants {
 
-    interface User{
-
+    public interface User{
+        String relativePathToFile = "/Users/I524916/Documents/java-project/HotelHelper/resources/entities/Users.txt";
     }
 
     interface Room{
