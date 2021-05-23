@@ -16,6 +16,20 @@ import static validations.UserValidations.validateUserAge;
 
 public class UserService {
 
+    public void userMainMenu(int choice) {
+        switch (choice) {
+            case 1:// Add User
+                break;
+            case 2:// View
+                break;
+            case 3:// Update
+                break;
+            case 4:// Delete
+                break;
+        }
+
+    }
+
     public User addUser() throws IOException {
         User user = new User();
 
