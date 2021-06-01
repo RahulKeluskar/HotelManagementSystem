@@ -77,7 +77,7 @@ public class Main {
     public Boolean menuInputValidator(String input, int begin, int end){
         int inputInteger = 0;
         try{
-            Integer.parseInt(input);
+            inputInteger = Integer.parseInt(input);
             if(inputInteger >= begin && inputInteger <= end){
                 return true;
             }
@@ -92,8 +92,11 @@ public class Main {
         System.out.println(this.getMainMenuString());
         String input = br.readLine();
         int choice = 0;
-        while(menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)){
-            choice = Integer.parseInt(input);
+        while (true) {
+            if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
+                choice = Integer.parseInt(input);
+                break;
+            }
         }
         // insertNewUser();
         switch (choice) {
@@ -101,8 +104,11 @@ public class Main {
                 System.out.println(this.getUserMenuString());
                 input = br.readLine();
                 choice = 0;
-                while (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
-                    choice = Integer.parseInt(input);
+                while (true) {
+                    if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
+                        choice = Integer.parseInt(input);
+                        break;
+                    }
                 }
                 UserService ob = new UserService();
                 ob.userMainMenu(choice);
@@ -112,8 +118,11 @@ public class Main {
                 System.out.println(this.getRoomMenuString());
                 input = br.readLine();
                 choice = 0;
-                while (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
-                    choice = Integer.parseInt(input);
+                while (true) {
+                    if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
+                        choice = Integer.parseInt(input);
+                        break;
+                    }
                 }
                 // RoomService ob1 = new RoomService();
 
@@ -123,8 +132,11 @@ public class Main {
                 System.out.println(this.getReservationMenuString());
                 input = br.readLine();
                 choice = 0;
-                while (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
-                    choice = Integer.parseInt(input);
+                while (true) {
+                    if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
+                        choice = Integer.parseInt(input);
+                        break;
+                    }
                 }
                 ReservationService res = new ReservationService();
                 res.reservationMainMenu(choice);
@@ -134,8 +146,11 @@ public class Main {
                 System.out.println(this.getPaymentMenuString());
                 input = br.readLine();
                 choice = 0;
-                while (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
-                    choice = Integer.parseInt(input);
+                while (true) {
+                    if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
+                        choice = Integer.parseInt(input);
+                        break;
+                    }
                 }
                 // Payment Service menu call
                 break;

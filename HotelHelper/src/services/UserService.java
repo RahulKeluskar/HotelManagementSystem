@@ -1,6 +1,9 @@
 package services;
 
 import db.FileHandler;
+import entities.Payment;
+import entities.ReservedRoom;
+import entities.Room;
 import entities.User;
 import util.CommonUtils;
 import validations.UserValidations;
@@ -10,19 +13,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Vector;
 
 import static util.CommonUtils.acceptNewInput;
 import static validations.UserValidations.validateUserAge;
 
 public class UserService {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public void userMainMenu(int choice) {
+    public void userMainMenu(int choice, Vector<User> user, Vector<Room> rooms, Vector<Payment> payment,
+            Vector<ReservedRoom> roomReservations) throws IOException {
         switch (choice) {
-            case 1:// Add User
+            case 1:
+                this.addUser();
                 break;
-            case 2:// View
+            case 2:
+                this.getAllUsers();
                 break;
-            case 3:// Update
+            case 3:
+                System.out.println("Enter the aadhar number of the user:");
+                String aadhar = br.readLine();
+                this.modifyUser(aadhar, user);
                 break;
             case 4:// Delete
                 break;
@@ -39,7 +50,7 @@ public class UserService {
         user.setAge(validateUserAge(acceptNewInput()));
         System.out.println("Enter the aadhar number of the user");
         user.setAadharNo(acceptNewInput());
-        System.out.println("Enter the location of the user");
+        System.out.println("Enter the room number of the user");
         user.setLocation(acceptNewInput());
         System.out.println("Enter the status of the user");
         user.setStatus(acceptNewInput());
@@ -50,8 +61,10 @@ public class UserService {
 
 
 
-    public User modifyUser(String id,User user){
-        User userToModify = this.getUserById(id);
+    public User modifyUser(String id, Vector<User> user) {
+
+        User userToModify = this.getUserById(id, user);
+
         if(!user.getAadharNo().isEmpty())
             userToModify.setAadharNo(user.getAadharNo());
         if(!user.getAge().isBlank())

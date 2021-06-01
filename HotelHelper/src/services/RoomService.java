@@ -48,7 +48,7 @@ public class RoomService {
     // return newroom;
     // }
     public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String roomType, String currentReservationIds,
-            Vector<String> reservationId) throws IOException {
+            Vector<String> reservationId) {
         // TODO: Take the inputs here and remove params
         System.out.println("Enter the room number");
         // String roomNumber = br.readLine();
@@ -101,11 +101,6 @@ public class RoomService {
                 System.out.println("\n\nCurrent Reservation Id's of the Room is : "+ room.getCurrentReservationId());
                 System.out.print("\n\nEnter the new Current Reservation Id's of the Room : ");
                 sc = new Scanner(System.in);
-                while(!sc.hasNextFloat())
-                {
-                    System.out.print("\n\nPlease enter a valid value : ");
-                    sc.next();
-                }
                 String ids = sc.nextLine();
                 room.setCurrentReservationId(ids);
                 System.out.println("\n\nReservation Id's are updated.\n\n");
