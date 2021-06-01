@@ -1,6 +1,8 @@
 package entities;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String id;
     private String aadharNo;
     private String name;
@@ -54,5 +56,15 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuffer("\n\nPatient name: ")
+                .append(this.getName()).append("\nAadhar Number: ")
+                .append(this.getAadharNo()).append("\nAge :")
+                .append(this.getAge()).append("\nLocation")
+                .append(this.getLocation()).append("\nPatient id :")
+                .append(this.getId()).toString();
     }
 }

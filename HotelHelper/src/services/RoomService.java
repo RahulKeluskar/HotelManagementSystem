@@ -2,12 +2,36 @@ package services;
 
 import entities.Room;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.Vector;
 
 public class RoomService {
+    BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
+
+    public void roomMainMenu(int choice) {
+        switch (choice) {
+            case 1:// Add Room
+                   // this.addRoomwithAllDetails(, roomPrice, roomType, currentReservationIds,
+                   // reservationId)
+                break;
+            case 2:// View
+                this.getAllRooms();
+                break;
+            case 3:// Update
+                   // find room object with a specific id and pass it as parameters
+                Room room;
+                this.updateRoom(room);
+                break;
+            case 4:// Delete
+                this.deleteRoom();
+                break;
+        }
+
+    }
     public List<Room> getAllRooms() {
         return null;
     }
@@ -17,7 +41,18 @@ public class RoomService {
         return newroom;
     }
 
-    public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String roomType, String currentReservationIds, Vector<String> reservationId){
+    // public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String
+    // roomType, String currentReservationIds, Vector<String> reservationId){
+    // Room newroom = new
+    // Room(UUID.randomUUID().toString(),roomNumber,roomPrice,roomType,currentReservationIds,reservationId);
+    // return newroom;
+    // }
+    public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String roomType, String currentReservationIds,
+            Vector<String> reservationId) throws IOException {
+        // TODO: Take the inputs here and remove params
+        System.out.println("Enter the room number");
+        // String roomNumber = br.readLine();
+        System.out.println("Enter the Room Price");
         Room newroom = new Room(UUID.randomUUID().toString(),roomNumber,roomPrice,roomType,currentReservationIds,reservationId);
         return newroom;
     }
