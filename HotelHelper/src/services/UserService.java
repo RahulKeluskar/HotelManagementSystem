@@ -34,7 +34,7 @@ public class UserService {
         switch (choice) {
             case 1:
                 userList.add(this.addUser());
-                this.viewAllUsers(userList);
+                System.out.println("User Added");
                 break;
             case 2:
                 this.viewAllUsers(userList);
