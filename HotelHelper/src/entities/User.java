@@ -60,11 +60,11 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuffer("\n\nPatient name: ")
+        return new StringBuffer("\n\nCustomer name: ")
                 .append(this.getName()).append("\nAadhar Number: ")
                 .append(this.getAadharNo()).append("\nAge :")
                 .append(this.getAge()).append("\nLocation")
-                .append(this.getLocation()).append("\nPatient id :")
+                .append(this.getLocation()).append("\nCustomer id :")
                 .append(this.getId()).toString();
     }
 }

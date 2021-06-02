@@ -1,6 +1,9 @@
 package main;
 
 import db.FileHandler;
+import entities.Payment;
+import entities.ReservedRoom;
+import entities.Room;
 import entities.User;
 import services.ReservationService;
 import services.RoomService;
@@ -11,14 +14,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Vector;
 
 public class Main {
     public static void main(String args[]) throws IOException {
         Main menuObject = new Main();
+
         menuObject.run();
     }
 
+    Vector<User> userList;
+    Vector<Room> roomList;
+    Vector<Payment> paymentmentList;
+    Vector<ReservedRoom> roomReservationList;
+
     public Main() {
+        FileHandler fh = new FileHandler();
+        userList = new Vector<User>(fh.retrieveAllUsers());
+
     }
 
     public String getMainMenuString(){
@@ -29,6 +42,7 @@ public class Main {
         stringBuffer.append("\n2. Room Management (Update, Delete or View Room (Occupied/Free) Information)");
         stringBuffer.append("\n3.  Reservation Management(Add/Cancel/Update/View)");
         stringBuffer.append("\n4.  Payment Management");
+        stringBuffer.append("\n  Any other number to exit");
 
         return stringBuffer.toString();
     }
@@ -87,16 +101,23 @@ public class Main {
         return false;
     }
 
-    public void run() throws IOException {
+    public void run() throws IOException, NumberFormatException {
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
         System.out.println(this.getMainMenuString());
         String input = br.readLine();
         int choice = 0;
         while (true) {
-            if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
+            if (menuInputValidator(input, -9999, 9999)) {
                 choice = Integer.parseInt(input);
                 break;
             }
+            System.out.println("Please enter valid input");
+            input = br.readLine();
+        }
+        if (choice < 1 || choice >= 5) {
+            System.out.println("Logging out...");
+            break;
         }
         // insertNewUser();
         switch (choice) {
@@ -111,13 +132,13 @@ public class Main {
                     }
                 }
                 UserService ob = new UserService();
-                ob.userMainMenu(choice);
+                ob.userMainMenu(choice, userList, roomList, paymentmentList, roomReservationList);
                 // User Service menu call
                 break;
             case 2: // Room Management
                 System.out.println(this.getRoomMenuString());
                 input = br.readLine();
-                choice = 0;
+
                 while (true) {
                     if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
                         choice = Integer.parseInt(input);
@@ -131,7 +152,7 @@ public class Main {
             case 3:// Reservation Management
                 System.out.println(this.getReservationMenuString());
                 input = br.readLine();
-                choice = 0;
+
                 while (true) {
                     if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
                         choice = Integer.parseInt(input);
@@ -145,7 +166,7 @@ public class Main {
             case 4:// Payment Management
                 System.out.println(this.getPaymentMenuString());
                 input = br.readLine();
-                choice = 0;
+
                 while (true) {
                     if (menuInputValidator(input, Constants.Menu.optionOne, Constants.Menu.optionFour)) {
                         choice = Integer.parseInt(input);
@@ -154,8 +175,10 @@ public class Main {
                 }
                 // Payment Service menu call
                 break;
+            default:
 
         }
+    }
 
     }
 
