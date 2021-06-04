@@ -3,7 +3,7 @@ package util;
 public class Constants {
 
     public interface User{
-        String relativePathToFile = "/Users/I524916/Documents/java-project/HotelHelper/resources/entities/Users.txt";
+        String relativePathToFile = "C:/Users/I513949/Documents/c";
     }
 
     interface Room{

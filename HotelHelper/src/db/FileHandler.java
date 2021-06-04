@@ -83,7 +83,7 @@ public class FileHandler implements java.io.Serializable{
   
    public static void insertUsersIntoFile(List<User> users){
         try(ObjectOutputStream oos =
-                    new ObjectOutputStream(new FileOutputStream(Constants.User.relativePathToFile))){
+                new ObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
             for(User user: users)
             {
                 oos.writeObject(user);
@@ -100,7 +100,7 @@ public class FileHandler implements java.io.Serializable{
 
     public static void insertSingleUserIntoFile(User user){
         try(AppendableObjectOutputStream oos =
-                    new AppendableObjectOutputStream(new FileOutputStream(Constants.User.relativePathToFile, true))){
+                new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
             oos.writeObject(user);
             System.out.println("Successfully Inserted");
             oos.flush();
@@ -112,27 +112,49 @@ public class FileHandler implements java.io.Serializable{
         }
     }
 
-    public static List<User> retrieveAllUsers(){
-        List<User> allUsers = new ArrayList<>();
-        boolean cont = true;
-        try(ObjectInputStream ois =
-                    new ObjectInputStream(new FileInputStream(Constants.User.relativePathToFile))){
-            Object obj= null;
-            while((obj = (User) ois.readObject()) != null){
-                if(obj instanceof User){
-                    allUsers.add((User)obj);
-                }
-            }
+    // public static List<User> retrieveAllUsers(){
+    // List<User> allUsers = new ArrayList<>();
+    // boolean cont = true;
+    // try(ObjectInputStream ois =
+    // new ObjectInputStream(new FileInputStream("Users.txt"))) {
+    // Object obj= null;
+    // while((obj = (User) ois.readObject()) != null){
+    // if(obj instanceof User){
+    // allUsers.add((User)obj);
+    // }
+    // }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // Will throw the end of file exception suggesting file read is over
-            System.out.println("Reached the end of file");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    // } catch (FileNotFoundException e) {
+    // e.printStackTrace();
+    // } catch (IOException e) {
+    // // Will throw the end of file exception suggesting file read is over
+    // System.out.println("Reached the end of file");
+    // } catch (ClassNotFoundException e) {
+    // e.printStackTrace();
+    // }
+    // return allUsers;
+    // }
+
+    public static Vector<User> retrieveAllUsers() {
+        Vector<User> userList = new Vector<User>();
+        try {
+            FileInputStream fis = new FileInputStream(new File(".\\Users.txt"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                User ob = (User) ois.readObject();
+                if (ob != null) {
+                    userList.add(ob);
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return userList;
+        } catch (Exception ex) {
+
         }
-        return allUsers;
+        return userList;
     }
 
     public static User updateUser(String id){
