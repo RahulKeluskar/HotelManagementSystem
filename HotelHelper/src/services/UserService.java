@@ -6,13 +6,10 @@ import entities.ReservedRoom;
 import entities.Room;
 import entities.User;
 import util.CommonUtils;
-import validations.UserValidations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.Vector;
 
 import static util.CommonUtils.acceptNewInput;
@@ -26,7 +23,7 @@ public class UserService {
     Vector<ReservedRoom> roomReservationList;
 
     public Vector<User> userMainMenu(int choice, Vector<User> user, Vector<Room> rooms, Vector<Payment> payment,
-            Vector<ReservedRoom> roomReservations) throws IOException {
+                                     Vector<ReservedRoom> roomReservations) throws IOException {
         userList = user;
         roomList = rooms;
         paymentList = payment;
@@ -175,7 +172,7 @@ public class UserService {
         return new User();
     }
 
-    public User getUserById(String id){
+    public User getUserById(String id) {
 
         return null;
     }

@@ -9,13 +9,10 @@ import services.ReservationService;
 import services.RoomService;
 import services.UserService;
 import util.Constants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.util.UUID;
 import java.util.Vector;
 
 public class Main {
@@ -224,7 +221,7 @@ public class Main {
 
                 System.out.println("Enter the room number : ");
                 String oldroomNumber = br.readLine();
-                Room roomOld = rs.deleteRoom(oldroomNumber, roomList);
+                Room roomOld = rs.deleteRoom(oldroomNumber, roomList,roomReservationList,false);
                 if (!roomOld.getId().equals(null)) {
                     roomList.add(rs.updateRoom(roomOld));
                     System.out.println("Room updated");
@@ -233,8 +230,9 @@ public class Main {
                 System.out.println("Sorry, room does not exist");
                 break;
             case 4:// Delete
-                //parameterd to be added
-                rs.deleteRoom("abc",roomList);
+                System.out.println("Enter the room number : ");
+                String roomnumber = br.readLine();
+                rs.deleteRoom(roomnumber,roomList,roomReservationList,true);
                 break;
         }
     }
