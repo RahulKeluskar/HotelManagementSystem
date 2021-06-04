@@ -14,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.UUID;
 import java.util.Vector;
 
 public class Main {
@@ -27,11 +29,11 @@ public class Main {
     Vector<Room> roomList;
     Vector<Payment> paymentmentList;
     Vector<ReservedRoom> roomReservationList;
+    BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
 
     public Main() {
         FileHandler fh = new FileHandler();
         userList = new Vector<User>(fh.retrieveAllUsers());
-
     }
 
     public String getMainMenuString(){
@@ -182,17 +184,70 @@ public class Main {
 
     }
 
+    public void roomServiceMainMenu(int choice) throws IOException {
 
+        RoomService rs = new RoomService();
+        Scanner sc = new Scanner(System.in);
+        switch (choice) {
+            case 1:// Add Room
+                //paramateres to be added
+
+                System.out.println("Enter the room number : " );
+                String roomNumber = br.readLine();
+
+                System.out.println("Enter the Room Price : ");
+                sc = new Scanner(System.in);
+                while(!sc.hasNextFloat())
+                {
+                    System.out.print("\n\nPlease enter a valid value : ");
+                    sc.next();
+                }
+                Float roomPrice = sc.nextFloat();
+
+                System.out.println("Enter the room type : " );
+                String roomType = br.readLine();
+
+                System.out.println("Enter the current reservation Id's : " );
+                String currentReservationIds = br.readLine();
+
+
+                System.out.println("Currently the Reservation Id is null as the room.");
+                Vector<String> reservationId = new Vector<String>();
+
+                roomList.add(rs.addRoomwithAllDetails(roomNumber,roomPrice,roomType,currentReservationIds,reservationId));
+                break;
+            case 2:// View
+                rs.viewAllRooms(roomList);
+                break;
+            case 3:// Update
+                // find room object with a specific id and pass it as parameters
+
+                System.out.println("Enter the room number : ");
+                String oldroomNumber = br.readLine();
+                Room roomOld = rs.deleteRoom(oldroomNumber, roomList);
+                if (!roomOld.getId().equals(null)) {
+                    roomList.add(rs.updateRoom(roomOld));
+                    System.out.println("Room updated");
+                    break;
+                }
+                System.out.println("Sorry, room does not exist");
+                break;
+            case 4:// Delete
+                //parameterd to be added
+                rs.deleteRoom("abc",roomList);
+                break;
+        }
+    }
 
     public void insertNewUser() throws IOException {
         UserService userService = new UserService();
         FileHandler.insertSingleUserIntoFile(userService.addUser());
     }
 
-    public void getAllUsers(){
-        UserService userService = new UserService();
-        for(User user: userService.getAllUsers() ){
-            System.out.println(user);
-        }
-    }
+//    public void getAllUsers(){
+//        UserService userService = new UserService();
+//        for(User user: userService.getAllUsers() ){
+//            System.out.println(user);
+//        }
+//    }
 }

@@ -1,6 +1,8 @@
 package services;
 
+import db.FileHandler;
 import entities.Room;
+import entities.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,32 +14,23 @@ import java.util.Vector;
 public class RoomService {
     BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
 
-    public void roomMainMenu(int choice) {
-        switch (choice) {
-            case 1:// Add Room
-                   // this.addRoomwithAllDetails(, roomPrice, roomType, currentReservationIds,
-                   // reservationId)
-                break;
-            case 2:// View
-                this.getAllRooms();
-                break;
-            case 3:// Update
-                   // find room object with a specific id and pass it as parameters
-                Room room;
-                this.updateRoom(room);
-                break;
-            case 4:// Delete
-                this.deleteRoom();
-                break;
+
+//    public List<Room> getAllRooms() {
+//        return null;
+//    }
+
+    //Prints a list of all the Rooms
+    public void viewAllRooms(Vector<Room> rooms) {
+
+        for (int i = 0; i < rooms.size(); i++) {
+            System.out.println(rooms.get(i).toString());
         }
 
-    }
-    public List<Room> getAllRooms() {
-        return null;
     }
 
     public Room addRoomwithIdOnly(){
         Room newroom = new Room(UUID.randomUUID().toString());
+        FileHandler.insertSingleRoomIntoFile(newroom);
         return newroom;
     }
 
@@ -47,23 +40,28 @@ public class RoomService {
     // Room(UUID.randomUUID().toString(),roomNumber,roomPrice,roomType,currentReservationIds,reservationId);
     // return newroom;
     // }
+
+
+    //Generated UUID for Unique ID for Room and appends the Room to file
     public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String roomType, String currentReservationIds,
             Vector<String> reservationId) {
-        // TODO: Take the inputs here and remove params
-        System.out.println("Enter the room number");
-        // String roomNumber = br.readLine();
-        System.out.println("Enter the Room Price");
         Room newroom = new Room(UUID.randomUUID().toString(),roomNumber,roomPrice,roomType,currentReservationIds,reservationId);
+        FileHandler.insertSingleRoomIntoFile(newroom);
         return newroom;
     }
 
-    public Room deleteRoom(){
-
-        //Will implement once DB is setup properly
-        return null;
+    public Room deleteRoom(String id, Vector<Room> room){
+        for (int i = 0; i < room.size(); i++) {
+            if (room.get(i).getId().equalsIgnoreCase(id)) {
+                Room roomOld = room.get(i);
+                room.remove(i);
+                return roomOld;
+            }
+        }
+        return new Room();
     }
 
-    public Boolean updateRoom(Room room){
+    public Room updateRoom(Room room){
         int selection;
         Scanner sc = new Scanner(System.in);
         do {
@@ -96,7 +94,7 @@ public class RoomService {
                 Float price = sc.nextFloat();
                 room.setRoomPrice(price);
                 System.out.println("\n\nRoom Price is updated.\n\n");
-                return true;
+                return room;
             case 2 :
                 System.out.println("\n\nCurrent Reservation Id's of the Room is : "+ room.getCurrentReservationId());
                 System.out.print("\n\nEnter the new Current Reservation Id's of the Room : ");
@@ -104,12 +102,14 @@ public class RoomService {
                 String ids = sc.nextLine();
                 room.setCurrentReservationId(ids);
                 System.out.println("\n\nReservation Id's are updated.\n\n");
-                return true;
+                return room;
             default:
                 System.out.println("\n\nYou seemed to have entered wrong option.\n\n");
-                return false;
+                return room;
         }
     }
+
+
 
     public static void main(String args[])
     {
@@ -130,16 +130,16 @@ public class RoomService {
 
 
         Room newroom3 = roomService.addRoomwithAllDetails("1",(float)100,"Deluxe","abc",testvector);
-        Boolean status = roomService.updateRoom(newroom3);
-        if(status)
-        {
-            System.out.println("\n\n\t\tUpdated Room Details\n\n");
-            newroom3.printRoomDetails();
-        }
-        else
-        {
-            System.out.println("\n\nUpdate operation could not be performed.\n\n");
-            newroom3.printRoomDetails();
-        }
+//        Boolean status = roomService.updateRoom(newroom3);
+//        if(status)
+//        {
+//            System.out.println("\n\n\t\tUpdated Room Details\n\n");
+//            newroom3.printRoomDetails();
+//        }
+//        else
+//        {
+//            System.out.println("\n\nUpdate operation could not be performed.\n\n");
+//            newroom3.printRoomDetails();
+//        }
     }
 }

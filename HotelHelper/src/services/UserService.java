@@ -46,6 +46,7 @@ public class UserService {
                 if (!userOld.getName().equals(null)) {
                     userList.add(enterModificationDetails(userOld));
                     System.out.println("User updated");
+                    break;
                 }
                 System.out.println("Sorry, user does not exist");
 

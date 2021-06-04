@@ -1,5 +1,6 @@
 package db;
 
+import entities.Room;
 import entities.User;
 import util.Constants;
 
@@ -38,6 +39,29 @@ public class FileHandler implements java.io.Serializable{
 		      e.printStackTrace();
 		    }
 	}
+    public void writeRoomFile(Vector<Room> rooms, String fileName)
+    {
+
+        try {
+            File file = new File(".\\"+fileName);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            // Write objects to file
+            for (int i = 0;i< rooms.size();i++)
+            {
+                oos.writeObject(rooms.get(i));
+            }
+            oos.flush();
+            oos.close();
+            fos.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 	public void readReservationFile(String fileName)
 	{
 		
@@ -60,6 +84,28 @@ public class FileHandler implements java.io.Serializable{
 		      
 		    }
 	}
+    public void readRoomFile(String fileName)
+    {
+
+        try{
+            FileInputStream fis = new FileInputStream(new File(".\\"+fileName));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while(true)
+            {
+                Room ob  = (Room)ois.readObject();
+                if(ob!=null)
+                    System.out.println(ob.toString());
+                else
+                    break;
+
+            }
+
+            fis.close();
+            ois.close();
+        }catch(Exception ex){
+
+        }
+    }
 	public void appendReservationToFile(ReservedRoom rs , String fileName)
 	{
 	    /*
@@ -80,6 +126,7 @@ public class FileHandler implements java.io.Serializable{
             e.printStackTrace();
         }
 	}
+
   
    public static void insertUsersIntoFile(List<User> users){
         try(ObjectOutputStream oos =
@@ -102,6 +149,19 @@ public class FileHandler implements java.io.Serializable{
         try(AppendableObjectOutputStream oos =
                 new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
             oos.writeObject(user);
+            System.out.println("Successfully Inserted");
+            oos.flush();
+            oos.reset();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void insertSingleRoomIntoFile(Room room){
+        try(AppendableObjectOutputStream oos =
+                    new AppendableObjectOutputStream(new FileOutputStream(".\\Rooms.txt", true))) {
+            oos.writeObject(room);
             System.out.println("Successfully Inserted");
             oos.flush();
             oos.reset();
@@ -155,6 +215,27 @@ public class FileHandler implements java.io.Serializable{
 
         }
         return userList;
+    }
+    public static Vector<Room> retrieveAllRooms() {
+        Vector<Room> roomList = new Vector<Room>();
+        try {
+            FileInputStream fis = new FileInputStream(new File(".\\Rooms.txt"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                Room ob = (Room) ois.readObject();
+                if (ob != null) {
+                    roomList.add(ob);
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return roomList;
+        } catch (Exception ex) {
+
+        }
+        return roomList;
     }
 
     public static User updateUser(String id){
