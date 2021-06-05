@@ -12,26 +12,7 @@ import java.util.stream.Collectors;
 import db.FileHandler;
 
 public class ReservationService {
-    public void reservationMainMenu(int choice) {
-        switch (choice) {
-            case 1:// Add Reservation
 
-                FileHandler fh = new FileHandler();
-                // ReservedRoom rs = new ReservedRoom(id, roomId, users, startDate, endDate);
-                // fh.appendReservationToFile(rs, "reservations.ser");
-                break;
-            case 2:// View
-
-                break;
-            case 3:// Update
-
-                break;
-            case 4:// Delete
-
-                break;
-        }
-
-    }
     public static void main(String args[]) {
         //For testing..
     	//Don't forget to delete it
@@ -155,7 +136,14 @@ public class ReservationService {
 
     }
 
-    public void deleteReservation(ReservationService reserve) {
-        // File handling required.
+    public ReservedRoom deleteReservation(String id, Vector<ReservedRoom> reservedRoom) {
+        for (int i = 0; i < reservedRoom.size(); i++) {
+            if (reservedRoom.get(i).getId().equalsIgnoreCase(id)) {
+                ReservedRoom reserveR = reservedRoom.get(i);
+                reservedRoom.remove(i);
+                return reserveR;
+            }
+        }
+        return new ReservedRoom();
     }
 }
