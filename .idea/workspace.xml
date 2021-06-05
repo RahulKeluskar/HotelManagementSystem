@@ -3,7 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="aacc5af1-e91d-421b-80d5-640e716efa7c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/db/FileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/db/FileHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HotelHelper/src/entities/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/entities/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/entities/ReservedRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/entities/ReservedRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/services/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/services/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/services/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/services/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/services/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/services/RoomService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

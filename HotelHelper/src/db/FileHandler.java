@@ -62,7 +62,7 @@ public class FileHandler implements java.io.Serializable{
             e.printStackTrace();
         }
     }
-	public Vector<ReservedRoom> readReservationFile()
+	public Vector<ReservedRoom> readReservationFile(String file)
 	{
 		String fileName= "reservations";
         Vector<ReservedRoom>  res= new Vector<ReservedRoom>();
@@ -253,12 +253,86 @@ public class FileHandler implements java.io.Serializable{
         return roomList;
     }
 
+
+    public Room findSingleRoomById(String id){
+        try {
+            FileInputStream fis = new FileInputStream(new File("Rooms.txt"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                Room ob = (Room) ois.readObject();
+                if (ob != null) {
+                    if(ob.getId().equals(id)){
+                        return ob;
+                    }
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return null;
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+    public ReservedRoom findSingleReservationById(String id){
+        try {
+            FileInputStream fis = new FileInputStream(new File(".\\reservation.ser"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                ReservedRoom ob = (ReservedRoom) ois.readObject();
+                if (ob != null) {
+                    if(ob.getId().equals(id)){
+                        return ob;
+                    }
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return null;
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+    public void insertPaymentInfo(){
+
+    }
+
     public static User updateUser(String id){
         return null;
     }
 
     public static User deleteUser(String id){
         return null;
+    }
+
+    public void insertPayment(Payment payment) throws IOException {
+        File tmpDir = new File("Payment.txt");
+        boolean exists = tmpDir.exists();
+
+        if(!exists) {
+            tmpDir.createNewFile();
+            ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(tmpDir));
+            fos.writeObject(payment);
+            System.out.println("Created file and inserted entry");
+            fos.flush();
+            fos.close();
+        }
+        try(AppendableObjectOutputStream oos =
+                    new AppendableObjectOutputStream(new FileOutputStream("Payment.txt", true))) {
+            oos.writeObject(payment);
+            System.out.println("Successfully Inserted");
+            oos.flush();
+            oos.reset();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -5,14 +5,14 @@ import entities.Payment;
 import entities.ReservedRoom;
 import entities.Room;
 import entities.User;
+import services.PaymentService;
 import services.ReservationService;
 import services.RoomService;
 import services.UserService;
 import util.CommonUtils;
 import util.Constants;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -43,7 +43,7 @@ public class Main {
         roomList = new Vector<Room>(fh.retrieveAllRooms());
 
 
-        roomReservationList = new Vector<ReservedRoom>(fh.readReservationFile());
+        roomReservationList = new Vector<ReservedRoom>(fh.readReservationFile(""));
 
     }
 
@@ -304,11 +304,28 @@ public class Main {
 
     }
 
+
+
     public void checkout() throws IOException {
         System.out.println("Enter the room number for which you want to checkout");
         String a = br.readLine();
+        PaymentService payment = new PaymentService();
+
         for (int i = 0; i < roomList.size(); i++) {
             if (roomList.get(i).getRoomNumber().equalsIgnoreCase(a)) {
+                System.out.println("Before proceeding please enter your user-id");
+                String userId = null;
+                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
+                    userId = bufferedReader.readLine();
+                    while(userId == null){
+                        System.out.println("Please enter a valid userId");
+                        userId = bufferedReader.readLine();
+                    }
+                } catch (IOException e) {
+                   System.out.println("Please enter a valid input");
+                }
+                String currentReservationId = roomList.get(i).getCurrentReservationId();
+                payment.completePayment(currentReservationId, (new ReservedRoom()).getPriceForUser(),userId);
                 roomList.get(i).setCurrentReservationId("");
                 break;
             }

@@ -26,6 +26,12 @@ public class RoomService {
 
     }
 
+    public Room findRoomById(String id){
+        FileHandler fileHandler = new FileHandler();
+        return fileHandler.findSingleRoomById(id);
+
+    }
+
     public Room addRoomwithIdOnly() {
         Room newroom = new Room(UUID.randomUUID().toString());
         try {

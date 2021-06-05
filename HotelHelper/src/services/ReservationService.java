@@ -146,4 +146,9 @@ public class ReservationService {
         }
         return new ReservedRoom();
     }
+
+    public ReservedRoom findReservationById(String id){
+        FileHandler fileHandler = new FileHandler();
+        return fileHandler.findSingleReservationById(id);
+    }
 }
