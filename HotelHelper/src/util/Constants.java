@@ -24,4 +24,7 @@ public class Constants {
         Integer optionOne = 1;
         Integer optionFour = 4;
     }
+    // Add function to modify details for reservation service
+    // add function to view reservation details
+    // find user is in which room
 }
