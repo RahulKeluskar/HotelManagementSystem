@@ -107,6 +107,7 @@ public class UserService {
 
     }
 
+
     public User deleteUser(String id, Vector<User> user) {
         for (int i = 0; i < user.size(); i++) {
             if (user.get(i).getAadharNo().equalsIgnoreCase(id)) {

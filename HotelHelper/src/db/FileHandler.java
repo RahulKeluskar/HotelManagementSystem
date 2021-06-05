@@ -20,6 +20,8 @@ public class FileHandler implements java.io.Serializable{
 	{
 		
 		 try {
+             File tmpDir = new File(".\\" + fileName);
+             boolean exists = tmpDir.exists();
 			 File file = new File(".\\"+fileName);
 			 if (!file.exists()) {
 			     file.createNewFile();
@@ -43,8 +45,11 @@ public class FileHandler implements java.io.Serializable{
     {
 
         try {
-            File file = new File(".\\"+fileName);
+            File file = new File(".\\"+"Rooms.txt");
             if (!file.exists()) {
+                file.createNewFile();
+            }else{
+                file.delete();
                 file.createNewFile();
             }
             FileOutputStream fos = new FileOutputStream(file);
@@ -110,6 +115,7 @@ public class FileHandler implements java.io.Serializable{
 
         }
     }
+
 	public void appendReservationToFile(ReservedRoom rs , String fileName)
 	{
 	    /*
@@ -149,7 +155,67 @@ public class FileHandler implements java.io.Serializable{
         }
     }
 
-    public static void insertSingleUserIntoFile(User user){
+    public void writeSingleReservation(ReservedRoom reservation) throws IOException {
+        File tmpDir = new File(".\\reservations");
+        boolean exists = tmpDir.exists();
+
+        if(!exists) {
+            tmpDir.createNewFile();
+            ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(tmpDir));
+            fos.writeObject(reservation);
+            System.out.println("Created file and inserted entry");
+            fos.flush();
+            fos.close();
+        }
+        try(AppendableObjectOutputStream oos =
+                    new AppendableObjectOutputStream(new FileOutputStream(".\\reservations", true))) {
+            oos.writeObject(reservation);
+            System.out.println("Successfully Inserted");
+            oos.flush();
+            oos.reset();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public String retrieveAllReservations(){
+	    StringBuffer output = new StringBuffer();
+
+        Vector<ReservedRoom> reservationList = new Vector<>();
+        try {
+            FileInputStream fis = new FileInputStream(new File(".\\reservations"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                ReservedRoom ob = (ReservedRoom) ois.readObject();
+                if (ob != null) {
+                    output.append(ob.toString());
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return output.toString();
+        } catch (Exception ex) {
+
+        }
+
+
+	    return output.toString();
+    }
+    public static void insertSingleUserIntoFile(User user) throws IOException {
+        File tmpDir = new File(".\\Users.txt");
+        boolean exists = tmpDir.exists();
+
+        if(!exists) {
+            tmpDir.createNewFile();
+            ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(tmpDir));
+            fos.writeObject(user);
+            System.out.println("Created file and inserted entry");
+            fos.flush();
+            fos.close();
+        }
         try(AppendableObjectOutputStream oos =
                 new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
             oos.writeObject(user);
@@ -278,7 +344,7 @@ public class FileHandler implements java.io.Serializable{
     }
     public ReservedRoom findSingleReservationById(String id){
         try {
-            FileInputStream fis = new FileInputStream(new File(".\\reservation.ser"));
+            FileInputStream fis = new FileInputStream(new File(".\\reservations"));
             ObjectInputStream ois = new ObjectInputStream(fis);
             while (true) {
                 ReservedRoom ob = (ReservedRoom) ois.readObject();

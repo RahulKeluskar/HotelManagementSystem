@@ -406,7 +406,7 @@ public class Main {
         {
             Vector<String> temp = roomList.get(i).getReservationId();
             boolean flag = true;
-            for(int j=0;j<temp.size();j++)
+            for(int j=0;temp!= null && j<temp.size();j++)
             {
                 if(ReservedList.contains(temp.get(i)))
                 {
@@ -440,6 +440,7 @@ public class Main {
         if(choice == 1)
         {
             userList.add(user);
+            (new FileHandler()).insertSingleUserIntoFile(user); // inserted user
             Vector<String> s = new Vector<String>();
             s.add(user.getAadharNo());
             String random = UUID.randomUUID().toString();
@@ -453,6 +454,7 @@ public class Main {
             ran.add(random);
             room.setReservationId(ran);
             roomList.add(room);
+            (new FileHandler()).writeRoomFile(roomList, "");
             
         }
         else
@@ -486,6 +488,7 @@ public class Main {
                         newUser.setLocation(roomReservationList.get(i).getRoomId());
                         System.out.println("User Added");
                     }
+                    userList.add(newUser);
                     System.out.println("Enter 1 to add another user");
                     String p = br.readLine();
                     if (p.equalsIgnoreCase("1")) {

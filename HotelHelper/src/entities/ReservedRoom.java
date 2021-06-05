@@ -24,7 +24,6 @@ public class ReservedRoom implements Serializable{
     private String currentUserId;
     private Date startDate;
     private Date endDate;
-    BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
     public ReservedRoom() {
 
     }

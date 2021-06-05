@@ -132,11 +132,13 @@ public class ReservationService {
      * Adds a new reservation to the file and also returns an object of the
      * reservation.
      */
-    public ReservedRoom addReservation(String id, String roomId, Vector<String> userId, Date startDate, Date endDate) {
+    public ReservedRoom addReservation(String id, String roomId, Vector<String> userId, Date startDate, Date endDate) throws IOException {
         // TODO: add it in the file as well
         // Add the reservation Id to the roomId
         // Validation to be done: end date should be after start date.
-        return new ReservedRoom(id, roomId, userId, startDate, endDate);
+        ReservedRoom reservation =  new ReservedRoom(id, roomId, userId, startDate, endDate);
+        (new FileHandler()).writeSingleReservation(reservation);
+        return reservation;
 
     }
 
@@ -160,9 +162,8 @@ public class ReservationService {
         return null;
     }
     public void viewAllReservations(Vector<ReservedRoom> reservedRoom) {
-        for (int i = 0; i < reservedRoom.size(); i++) {
-            System.out.println(reservedRoom.get(i).toString());
-        }
+        String output = (new FileHandler()).retrieveAllReservations();
+        System.out.println(output);
     }
     public Boolean menuInputValidator(String input, int begin, int end){
         int inputInteger = 0;
@@ -261,8 +262,7 @@ public class ReservationService {
                 ReservedRoom reserveR = reservedRoom.get(i);
                 //removes the reservation details from room 
                 for (int j = 0; j < rooms.size(); j++) {
-                    if (rooms.get(j).getRoomNumber().equalsIgnoreCase(reserveR.getRoomId()))
-                    {
+                    if (rooms.get(j).getRoomNumber().equalsIgnoreCase(reserveR.getRoomId())) {
                         rooms.get(j).getReservationId().remove(id);
                     }
                 }
@@ -271,6 +271,7 @@ public class ReservationService {
             }
         }
         return new ReservedRoom();
+    }
 
     public ReservedRoom findReservationById(String id){
         FileHandler fileHandler = new FileHandler();
