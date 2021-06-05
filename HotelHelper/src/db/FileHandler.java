@@ -158,9 +158,20 @@ public class FileHandler implements java.io.Serializable{
             e.printStackTrace();
         }
     }
-    public static void insertSingleRoomIntoFile(Room room){
+    public static void insertSingleRoomIntoFile(Room room) throws IOException {
+        File tmpDir = new File("Rooms.txt");
+        boolean exists = tmpDir.exists();
+
+        if(!exists) {
+            tmpDir.createNewFile();
+            ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(tmpDir));
+            fos.writeObject(room);
+            System.out.println("Created file and inserted entry");
+            fos.flush();
+            fos.close();
+        }
         try(AppendableObjectOutputStream oos =
-                    new AppendableObjectOutputStream(new FileOutputStream(".\\Rooms.txt", true))) {
+                    new AppendableObjectOutputStream(new FileOutputStream("Rooms.txt", true))) {
             oos.writeObject(room);
             System.out.println("Successfully Inserted");
             oos.flush();
@@ -219,7 +230,7 @@ public class FileHandler implements java.io.Serializable{
     public static Vector<Room> retrieveAllRooms() {
         Vector<Room> roomList = new Vector<Room>();
         try {
-            FileInputStream fis = new FileInputStream(new File(".\\Rooms.txt"));
+            FileInputStream fis = new FileInputStream(new File("Rooms.txt"));
             ObjectInputStream ois = new ObjectInputStream(fis);
             while (true) {
                 Room ob = (Room) ois.readObject();
