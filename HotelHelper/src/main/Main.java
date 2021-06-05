@@ -8,12 +8,16 @@ import entities.User;
 import services.ReservationService;
 import services.RoomService;
 import services.UserService;
+import util.CommonUtils;
 import util.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.*;
 
 public class Main {
     public static void main(String args[]) throws IOException {
@@ -73,9 +77,11 @@ public class Main {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Select an option to proceed further\n");
         stringBuffer.append("\n1. Add a new reservation");
-        stringBuffer.append("\n2. View reservation");
-        stringBuffer.append("\n3. Update reservation Information");
-        stringBuffer.append("\n4. Delete a reservation");
+        stringBuffer.append("\n2. Check in using reservation ID");
+        stringBuffer.append("\n3. Check out");
+        stringBuffer.append("\n4. View reservation");
+        stringBuffer.append("\n5. Update reservation Information");
+        stringBuffer.append("\n6. Delete a reservation");
         return stringBuffer.toString();
     }
 
@@ -145,6 +151,7 @@ public class Main {
                         break;
                     }
                 }
+                this.roomServiceMainMenu(choice);
                 // RoomService ob1 = new RoomService();
 
                 // Room Service menu call
@@ -159,8 +166,8 @@ public class Main {
                         break;
                     }
                 }
-                ReservationService res = new ReservationService();
-                res.reservationMainMenu(choice);
+
+                this.reservationMainMenu(choice);
                 // Reservation Service menu call
                 break;
             case 4:// Payment Management
@@ -203,16 +210,19 @@ public class Main {
                 Float roomPrice = sc.nextFloat();
 
                 System.out.println("Enter the room type : " );
+                System.out.println("Enter 1 for Deluxe");
+                System.out.println("Enter 2 for Suite");
+                System.out.println("Enter 3 for NONAC");
+                System.out.println("Enter 4 for Double Deluxe");
                 String roomType = br.readLine();
+                System.out.println("roomNumber: " + roomNumber);
+                System.out.println("roomPrice: " + roomPrice);
+                System.out.println("roomType: " + roomType);
 
-                System.out.println("Enter the current reservation Id's : " );
-                String currentReservationIds = br.readLine();
-
-
-                System.out.println("Currently the Reservation Id is null as the room.");
+                System.out.println("No reservations added for the room as of now.");
                 Vector<String> reservationId = new Vector<String>();
 
-                roomList.add(rs.addRoomwithAllDetails(roomNumber,roomPrice,roomType,currentReservationIds,reservationId));
+                roomList.add(rs.addRoomwithAllDetails(roomNumber, roomPrice, roomType, "", reservationId));
                 break;
             case 2:// View
                 rs.viewAllRooms(roomList);
@@ -250,7 +260,9 @@ public class Main {
         UserService us = new UserService();
         switch (choice) {
             case 1:
-                userList.add(us.addUser());
+                System.out.println("Enter aadhar number");
+                String ad = br.readLine();
+                userList.add(us.addUser(ad));
                 System.out.println("User Added");
                 break;
             case 2:
@@ -283,15 +295,234 @@ public class Main {
 
     }
 
-    public void insertNewUser() throws IOException {
-        UserService userService = new UserService();
-        FileHandler.insertSingleUserIntoFile(userService.addUser());
+    public void checkout() throws IOException {
+        System.out.println("Enter the room number for which you want to checkout");
+        String a = br.readLine();
+        for (int i = 0; i < roomList.size(); i++) {
+            if (roomList.get(i).getRoomNumber().equalsIgnoreCase(a)) {
+                roomList.get(i).setCurrentReservationId("");
+                break;
+            }
+        }
     }
 
-//    public void getAllUsers(){
-//        UserService userService = new UserService();
-//        for(User user: userService.getAllUsers() ){
-//            System.out.println(user);
-//        }
-//    }
+    public void createReservation()throws IOException{
+        int choice;
+        User user;
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
+        ReservationService resSer = new ReservationService();
+        UserService userSer = new UserService();
+        RoomService roomSer= new RoomService();
+        Vector<String> ReservedList;
+        Date startDate,endDate;
+        System.out.print("1.Deluxe \n 2.Suite \n 3.NonAC \n 4.DoubleDeluxe");
+        System.out.println("Select a type of room:  ");
+        String input = br.readLine();
+        while (true) 
+        {
+            if (menuInputValidator(input, 1, 4)) 
+            {
+                choice = Integer.parseInt(input);
+                break;
+            }
+            System.out.println("Please enter valid input");
+            input = br.readLine();
+        }
+        String d1,m1,y1,d2,m2,y2;
+        CommonUtils common = new CommonUtils();
+        
+        while(true)
+        {
+            System.out.println("Enter the start date: ");
+            d1 = br.readLine();
+            System.out.println("Enter the start month: ");
+            m1 = br.readLine();
+            System.out.println("Enter the start year: ");
+            y1 = br.readLine();
+            if(common.validateJavaDate(d1+"/"+m1+"/"+y1))
+                break;
+            else
+                System.out.println("Enter a valid date ");
+        
+        }
+    
+        while(true)
+        {
+            System.out.println("Enter the end date: ");
+            d2 = br.readLine();
+            System.out.println("Enter the end month: ");
+            m2 = br.readLine();
+            System.out.println("Enter the end year: ");
+            y2 = br.readLine();
+            if(common.validateJavaDate(d2+"/"+m2+"/"+y2))
+            {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Integer.parseInt(y1),Integer.parseInt(m1),Integer.parseInt(d1)); // Year, month and day of month
+                startDate = (Date) cal.getTime();
+                cal.set(Integer.parseInt(y2),Integer.parseInt(m2),Integer.parseInt(d2)); // Year, month and day of month
+                endDate = (Date) cal.getTime();
+                if(startDate.compareTo(endDate)>0)
+                {
+                    System.out.println("Start date cannot be greater than end date. Please enter a valid end date.")
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+                System.out.println("Enter a valid date ");
+    
+        }
+        Room room = new Room();
+        ReservedList = resSer.getReservedIds( roomReservationList,startDate, endDate);
+        for(int i=0;i<roomList.size();i++)
+        {
+            Vector<String> temp = roomList.get(i).getReservationId();
+            boolean flag = true;
+            for(int j=0;j<temp.size();j++)
+            {
+                if(ReservedList.contains(temp.get(i)))
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag == true)
+            {
+                //room is empty
+                room= roomList.get(i);
+                break;
+            }
+        }
+        System.out.println("Enter aadhar number");
+        String ad = br.readLine();
+        user = userSer.addUser(ad);
+        System.out.println(" Do you want to confirm reservation?");
+        System.out.println("1.Enter 1. for yes, 2. for no");
+        input = br.readLine();
+        while (true) 
+        {
+            if (menuInputValidator(input, 1, 2))
+            {
+                choice = Integer.parseInt(input);
+                break;
+            }
+            System.out.println("Please enter valid input");
+            input = br.readLine();
+        }
+        if(choice == 1)
+        {
+            userList.add(user);
+            Vector<String> s = new Vector<String>();
+            s.add(user.getAadharNo());
+            var random = UUID.randomUUID().toString();
+            Vector<String> ran = room.getReservationId();
+            resSer.addReservation(random,room.getId(), s, startDate, endDate);
+            roomSer.deleteRoom(room.getRoomNumber(), roomList, roomReservationList, false);
+            ran.add(random);
+            room.setReservationId(ran);
+            roomList.add(room);
+        }
+        else
+        {
+            System.out.println("Thank you for considering us");
+        }
+    }
+
+    public void checkIn() throws IOException {
+        System.out.println("Enter the reservation Id to checkin");
+        String a = br.readLine();
+        String reservationId = "";
+        String roomNo = "";
+        for (int i = 0; i < roomReservationList.size(); i++) {
+            if (roomReservationList.get(i).getId().equalsIgnoreCase(a)) {
+                System.out.println("Enter the user details for all the people checking in");
+                Vector<String> usersForReservation = roomReservationList.get(i).getUserId();
+
+                while (true) {
+                    System.out.println("Enter the aadhar number");
+                    String aadhar = br.readLine();
+                    UserService userSr = new UserService();
+                    User newUser = userSr.getUserById(aadhar, userList);
+                    if (!(newUser.getAadharNo().equals(null))) {
+                        userSr.deleteUser(aadhar, userList);
+                        newUser.setLocation(roomReservationList.get(i).getRoomId());
+                    } else {
+                        newUser = userSr.addUser(aadhar);
+                        userList.add(newUser);
+                        usersForReservation.add(newUser.getAadharNo());
+                        newUser.setLocation(roomReservationList.get(i).getRoomId());
+                        System.out.println("User Added");
+                    }
+                    System.out.println("Enter 1 to add another user");
+                    String p = br.readLine();
+                    if (p.equalsIgnoreCase("1")) {
+                        break;
+                    }
+                }
+
+                roomReservationList.get(i).setUserId(usersForReservation);
+                reservationId = roomReservationList.get(i).getId();
+                roomNo = roomReservationList.get(i).getRoomId();
+                break;
+            }
+
+            if (!reservationId.equals(null)) {
+                for (int k = 0; k < roomList.size(); k++) {
+                    if (roomList.get(k).getRoomNumber().equalsIgnoreCase(roomNo)) {
+
+                        roomList.get(k).setCurrentReservationId(reservationId);
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void reservationMainMenu(int choice) throws IOException {
+        ReservationService rs = new ReservationService();
+        switch (choice) {
+            case 1:
+                this.createReservation();
+                break;
+            case 2:
+                this.checkIn();
+
+                break;
+            case 3:
+                this.checkout();
+
+                break;
+            case 4:// View
+
+                break;
+            case 5:
+                System.out.println("Enter the reservation id for the reservation to be deleted");
+                String reservat = br.readLine();
+                ReservedRoom reserv = rs.deleteReservation(reservat, roomReservationList);
+                if (!reserv.getId().equals(null)) {
+                    roomReservationList.add(rs.enterModificationDetails(reserv));
+                    System.out.println("User updated");
+                    break;
+                }
+                System.out.println("Sorry, user does not exist");
+
+                break;
+            case 6:
+                System.out.println("Enter the reservation id for the reservation to be deleted");
+                String reservation = br.readLine();
+                ReservedRoom reser = rs.deleteReservation(reservation, roomReservationList);
+                if (!reser.getId().equals(null)) {
+
+                    System.out.println("Reservation deleted");
+                }
+                System.out.println("Reservation does not exist");
+                break;
+
+        }
+
+    }
+
+
 }
