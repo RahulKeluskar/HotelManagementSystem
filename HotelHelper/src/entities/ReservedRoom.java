@@ -1,6 +1,10 @@
 package entities;
+import util.CommonUtils;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Vector;
 
@@ -10,7 +14,7 @@ public class ReservedRoom implements Serializable{
     private Vector<String> userId;
     private Date startDate;
     private Date endDate;
-
+    BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
     public ReservedRoom() {
 
     }
@@ -66,4 +70,17 @@ public class ReservedRoom implements Serializable{
         return new StringBuffer(" \nId: ").append(this.id)
                 .append(" \nRoom Id : ").append(this.roomId).append(" \nUsers : ").append(this.userId.toString()).append(" \nStart Date : ").append(this.startDate).append(" \nEnd Date : ").append(this.endDate).toString();
     }
+    public Boolean menuInputValidator(String input, int begin, int end){
+        int inputInteger = 0;
+        try{
+            inputInteger = Integer.parseInt(input);
+            if(inputInteger >= begin && inputInteger <= end){
+                return true;
+            }
+        }catch(NumberFormatException e){
+            System.out.println("Sorry this input is invalid");
+        }
+        return false;
+    }
+  
 }
