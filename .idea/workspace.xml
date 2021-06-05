@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aacc5af1-e91d-421b-80d5-640e716efa7c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/HotelHelper/.\Rooms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/.\Rooms.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HotelHelper/.\Users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/.\Users.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HotelHelper/Rooms.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HotelHelper/src/db/FileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/db/FileHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HotelHelper/src/entities/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/entities/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HotelHelper/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HotelHelper/src/services/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/services/RoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Rooms.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelHelper/src/entities/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/HotelHelper/src/entities/Payment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
