@@ -27,6 +27,7 @@ public class Constants {
         Integer optionFour = 4;
     }
 
+
     public interface Testing{
         String DUMMY_USER_LOCATION = "Dummy location";
         int DUMMY_USER_AGE = 21;
@@ -37,4 +38,9 @@ public class Constants {
         String DUMMY_R_ID=null;
         Vector<String> DUMMY_RIV_LIST = null;
     }
+
+    // Add function to modify details for reservation service
+    // add function to view reservation details
+    // find user is in which room
+
 }

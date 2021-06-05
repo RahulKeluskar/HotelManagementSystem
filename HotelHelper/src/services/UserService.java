@@ -24,19 +24,17 @@ public class UserService {
 
 
 
-    public User addUser() throws IOException {
+    public User addUser(String aadhar) throws IOException {
         User user = new User();
 
         System.out.println("Enter the name of the user");
         user.setName(acceptNewInput());
         System.out.println("Enter the age of the user");
         user.setAge(validateUserAge(acceptNewInput()));
-        System.out.println("Enter the aadhar number of the user");
-        user.setAadharNo(acceptNewInput());
+        user.setAadharNo(aadhar);
         System.out.println("Enter the room number of the user");
         user.setLocation(acceptNewInput());
-        System.out.println("Enter the status of the user");
-        user.setStatus(acceptNewInput());
+        user.setStatus("");
         user.setId(CommonUtils.generatePrimaryKey());
         FileHandler.insertSingleUserIntoFile(user);
         return user;
@@ -97,20 +95,7 @@ public class UserService {
         return false;
     }
 
-    // public User modifyUser(String id, Vector<User> user) {
 
-    // // User userToModify = this.getUserById(id, user);
-
-    // // if(!user.getAadharNo().isEmpty())
-    // // userToModify.setAadharNo(user.getAadharNo());
-    // // if(!user.getAge().isBlank())
-    // // userToModify.setAge(user.getAge());
-    // // if(!user.getStatus().isBlank())
-    // // userToModify.setStatus(user.getStatus());
-    // // if(!user.getAadharNo().isBlank())
-    // // userToModify.setLocation(user.getLocation());
-    // return userToModify;
-    // }
 
     public void viewAllUsers(Vector<User> users) {
 
@@ -133,9 +118,14 @@ public class UserService {
         return new User();
     }
 
-    public User getUserById(String id) {
+    public User getUserById(String id, Vector<User> userList) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getAadharNo().equalsIgnoreCase(id)) {
+                return userList.get(i);
+            }
+        }
+        return new User();
 
-        return null;
     }
 
 }

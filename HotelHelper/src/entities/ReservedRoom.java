@@ -11,6 +11,9 @@ public class ReservedRoom implements Serializable{
     private Date startDate;
     private Date endDate;
 
+    public ReservedRoom() {
+
+    }
     public ReservedRoom(String id, String roomId, Vector<String> userId, Date startDate, Date endDate) {
         this.id = id;
         this.roomId = roomId;
