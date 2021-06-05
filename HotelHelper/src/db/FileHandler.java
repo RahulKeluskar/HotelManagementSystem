@@ -3,7 +3,7 @@ package db;
 import entities.Room;
 import entities.User;
 import util.Constants;
-
+import entities.Payment;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,8 +129,8 @@ public class FileHandler implements java.io.Serializable{
 
   
    public static void insertUsersIntoFile(List<User> users){
-        try(ObjectOutputStream oos =
-                new ObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
+        try(AppendableObjectOutputStream oos =
+                new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
             for(User user: users)
             {
                 oos.writeObject(user);
