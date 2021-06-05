@@ -20,16 +20,20 @@ import java.util.Vector;
 import java.util.*;
 
 public class Main {
-    public static void main(String args[]) throws IOException {
-        Main menuObject = new Main();
-
-        menuObject.run();
-    }
-
     Vector<User> userList;
     Vector<Room> roomList;
     Vector<Payment> paymentList;
     Vector<ReservedRoom> roomReservationList;
+
+    public static void main(String args[]) throws IOException {
+        Main menuObject = new Main();
+        menuObject.userList = new Vector<>();
+
+        menuObject.paymentList = new Vector<>();
+        menuObject.run();
+    }
+
+
 
     BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
 
@@ -37,7 +41,10 @@ public class Main {
         FileHandler fh = new FileHandler();
         userList = new Vector<User>(fh.retrieveAllUsers());
         roomList = new Vector<Room>(fh.retrieveAllRooms());
+
+
         roomReservationList = new Vector<ReservedRoom>(fh.readReservationFile());
+
     }
 
     public String getMainMenuString(){
@@ -418,7 +425,7 @@ public class Main {
             userList.add(user);
             Vector<String> s = new Vector<String>();
             s.add(user.getAadharNo());
-            var random = UUID.randomUUID().toString();
+            String random = UUID.randomUUID().toString();
             Vector<String> ran = room.getReservationId();
             resSer.addReservation(random,room.getId(), s, startDate, endDate);
             roomSer.deleteRoom(room.getRoomNumber(), roomList, roomReservationList, false);
@@ -504,7 +511,7 @@ public class Main {
                 String reservat = br.readLine();
                 ReservedRoom reserv = rs.deleteReservation(reservat, roomReservationList);
                 if (!reserv.getId().equals(null)) {
-                    roomReservationList.add(rs.enterModificationDetails(reserv));
+//                    roomReservationList.add(rs.enterModificationDetails(reserv));
                     System.out.println("User updated");
                     break;
                 }
