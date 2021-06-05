@@ -24,8 +24,9 @@ public class Main {
 
     Vector<User> userList;
     Vector<Room> roomList;
-    Vector<Payment> paymentmentList;
+    Vector<Payment> paymentList;
     Vector<ReservedRoom> roomReservationList;
+
     BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
 
     public Main() {
@@ -131,7 +132,7 @@ public class Main {
                     }
                 }
                 UserService ob = new UserService();
-                ob.userMainMenu(choice, userList, roomList, paymentmentList, roomReservationList);
+                this.userMainMenu(choice, userList, roomList, paymentList, roomReservationList);
                 // User Service menu call
                 break;
             case 2: // Room Management
@@ -235,6 +236,51 @@ public class Main {
                 rs.deleteRoom(roomnumber,roomList,roomReservationList,true);
                 break;
         }
+    }
+
+
+
+    public Vector<User> userMainMenu(int choice, Vector<User> user, Vector<Room> rooms, Vector<Payment> payment,
+                                     Vector<ReservedRoom> roomReservations) throws IOException {
+        userList = user;
+        roomList = rooms;
+        paymentList = payment;
+        roomReservationList = roomReservations;
+
+        UserService us = new UserService();
+        switch (choice) {
+            case 1:
+                userList.add(us.addUser());
+                System.out.println("User Added");
+                break;
+            case 2:
+                us.viewAllUsers(userList);
+                break;
+            case 3:
+                System.out.println("Enter the aadhar number of the user:");
+                String aadhar = br.readLine();
+                User userOld = us.deleteUser(aadhar, userList);
+                if (!userOld.getName().equals(null)) {
+                    userList.add(us.enterModificationDetails(userOld));
+                    System.out.println("User updated");
+                    break;
+                }
+                System.out.println("Sorry, user does not exist");
+
+                break;
+            case 4:
+                System.out.println("Enter the aadhar number of the user you want to delete");
+                String aadharNo = br.readLine();
+                User userO = us.deleteUser(aadharNo, userList);
+                if (!userO.getName().equals(null)) {
+
+                    System.out.println("User deleted");
+                }
+                System.out.println("User does not exist");
+                break;
+        }
+        return userList;
+
     }
 
     public void insertNewUser() throws IOException {

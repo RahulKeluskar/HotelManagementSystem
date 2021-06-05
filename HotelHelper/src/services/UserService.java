@@ -22,46 +22,7 @@ public class UserService {
     Vector<Payment> paymentList;
     Vector<ReservedRoom> roomReservationList;
 
-    public Vector<User> userMainMenu(int choice, Vector<User> user, Vector<Room> rooms, Vector<Payment> payment,
-                                     Vector<ReservedRoom> roomReservations) throws IOException {
-        userList = user;
-        roomList = rooms;
-        paymentList = payment;
-        roomReservationList = roomReservations;
-        switch (choice) {
-            case 1:
-                userList.add(this.addUser());
-                System.out.println("User Added");
-                break;
-            case 2:
-                this.viewAllUsers(userList);
-                break;
-            case 3:
-                System.out.println("Enter the aadhar number of the user:");
-                String aadhar = br.readLine();
-                User userOld = this.deleteUser(aadhar, userList);
-                if (!userOld.getName().equals(null)) {
-                    userList.add(enterModificationDetails(userOld));
-                    System.out.println("User updated");
-                    break;
-                }
-                System.out.println("Sorry, user does not exist");
 
-                break;
-            case 4:
-                System.out.println("Enter the aadhar number of the user you want to delete");
-                String aadharNo = br.readLine();
-                User userO = this.deleteUser(aadharNo, userList);
-                if (!userO.getName().equals(null)) {
-
-                    System.out.println("User deleted");
-                }
-                System.out.println("User does not exist");
-                break;
-        }
-        return userList;
-
-    }
 
     public User addUser() throws IOException {
         User user = new User();
