@@ -97,14 +97,13 @@ public class UserService {
 
 
 
-    public void viewAllUsers(Vector<User> users) {
+    public void viewAllUsers() {
 
-        for (int i = 0; i < users.size(); i++) {
-            System.out.println(users.get(i).toString());
+        Vector<User> users = FileHandler.retrieveAllUsers();
+        for(User userPirnting: users){
+            System.out.println(userPirnting.toString());
+            System.out.println("******\t*******\t********");
         }
-
-        // return FileHandler.retrieveAllUsers();
-
     }
 
 

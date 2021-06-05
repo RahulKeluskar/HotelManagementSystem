@@ -26,7 +26,7 @@ public class TestingService {
     public void insertUsersAndRooms() throws IOException {
         List<User> listOfDummyUsers = new ArrayList<>();
         for(int i=0; i < LIMIT; i++){
-            listOfDummyUsers.add(this.returnDummyUserData());
+            FileHandler.insertSingleUserIntoFile(this.returnDummyUserData());
             rooms.addRoomwithAllDetails(Integer.toString(i),
                     Constants.Testing.DUMMY_ROOM_PRICE,
                     Constants.Testing.DUMMY_ROOM_TYPE,
@@ -34,7 +34,6 @@ public class TestingService {
                     Constants.Testing.DUMMY_RIV_LIST);
 
         }
-        fileHandler.insertUsersIntoFile(listOfDummyUsers);
     }
     public String createRandomString(){
         int leftLimit = 48; // numeral '0'

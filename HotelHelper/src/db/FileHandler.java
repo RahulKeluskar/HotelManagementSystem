@@ -140,7 +140,7 @@ public class FileHandler implements java.io.Serializable{
   
    public static void insertUsersIntoFile(List<User> users){
         try(AppendableObjectOutputStream oos =
-                new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
+                new AppendableObjectOutputStream(new FileOutputStream("Users", true))) {
             for(User user: users)
             {
                 oos.writeObject(user);
@@ -205,7 +205,7 @@ public class FileHandler implements java.io.Serializable{
 	    return output.toString();
     }
     public static void insertSingleUserIntoFile(User user) throws IOException {
-        File tmpDir = new File(".\\Users.txt");
+        File tmpDir = new File("Users");
         boolean exists = tmpDir.exists();
 
         if(!exists) {
@@ -217,7 +217,7 @@ public class FileHandler implements java.io.Serializable{
             fos.close();
         }
         try(AppendableObjectOutputStream oos =
-                new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
+                new AppendableObjectOutputStream(new FileOutputStream("Users", true))) {
             oos.writeObject(user);
             System.out.println("Successfully Inserted");
             oos.flush();
@@ -279,7 +279,7 @@ public class FileHandler implements java.io.Serializable{
     public static Vector<User> retrieveAllUsers() {
         Vector<User> userList = new Vector<User>();
         try {
-            FileInputStream fis = new FileInputStream(new File(".\\Users.txt"));
+            FileInputStream fis = new FileInputStream(new File("Users"));
             ObjectInputStream ois = new ObjectInputStream(fis);
             while (true) {
                 User ob = (User) ois.readObject();

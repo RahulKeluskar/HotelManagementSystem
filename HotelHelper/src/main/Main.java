@@ -275,7 +275,7 @@ public class Main {
                 System.out.println("User Added");
                 break;
             case 2:
-                us.viewAllUsers(userList);
+                us.viewAllUsers();
                 break;
             case 3:
                 System.out.println("Enter the aadhar number of the user:");
