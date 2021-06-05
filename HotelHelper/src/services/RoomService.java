@@ -40,17 +40,21 @@ public class RoomService {
     public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String roomType, String currentReservationIds,
                                       Vector<String> reservationId) {
         Room newroom = new Room(UUID.randomUUID().toString(), roomNumber, roomPrice, roomType, currentReservationIds, reservationId);
+
         try {
             FileHandler.insertSingleRoomIntoFile(newroom);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // FileHandler.insertSingleRoomIntoFile(newroom);
+
         return newroom;
     }
 
     public Room deleteRoom(String id, Vector<Room> room, Vector<ReservedRoom> reservedRooms, boolean isdelete) {
         for (int i = 0; i < room.size(); i++) {
-            if (room.get(i).getId().equalsIgnoreCase(id)) {
+            if (room.get(i).getRoomNumber().equalsIgnoreCase(id)) {
 
                 //call Reservation to delete reservation
                 if (isdelete) {

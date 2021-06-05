@@ -62,9 +62,10 @@ public class FileHandler implements java.io.Serializable{
             e.printStackTrace();
         }
     }
-	public void readReservationFile(String fileName)
+	public Vector<ReservedRoom> readReservationFile()
 	{
-		
+		String fileName= "reservations";
+        Vector<ReservedRoom>  res= new Vector<ReservedRoom>();
 		try{
 		      FileInputStream fis = new FileInputStream(new File(".\\"+fileName));
 		      ObjectInputStream ois = new ObjectInputStream(fis);
@@ -72,17 +73,20 @@ public class FileHandler implements java.io.Serializable{
 		      {
 		    	  ReservedRoom ob  = (ReservedRoom)ois.readObject();
 		    	  if(ob!=null)
-		    		  System.out.println(ob.toString());
+                    res.add(ob);
+		    		//   System.out.println(ob.toString());
 		    	  else
 		    		  break;
 			      
 		      }
-		    
-		      fis.close();
+              fis.close();
 		      ois.close();
+              return res;
+		     
 		    }catch(Exception ex){
 		      
 		    }
+            return res;
 	}
     public void readRoomFile(String fileName)
     {

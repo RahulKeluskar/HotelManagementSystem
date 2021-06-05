@@ -41,6 +41,10 @@ public class Main {
         FileHandler fh = new FileHandler();
         userList = new Vector<User>(fh.retrieveAllUsers());
         roomList = new Vector<Room>(fh.retrieveAllRooms());
+
+
+        roomReservationList = new Vector<ReservedRoom>(fh.readReservationFile());
+
     }
 
     public String getMainMenuString(){
@@ -238,7 +242,7 @@ public class Main {
                 System.out.println("Enter the room number : ");
                 String oldroomNumber = br.readLine();
                 Room roomOld = rs.deleteRoom(oldroomNumber, roomList,roomReservationList,false);
-                if (!roomOld.getId().equals(null)) {
+                if (!(roomOld.getRoomNumber()==null)) {
                     roomList.add(rs.updateRoom(roomOld));
                     System.out.println("Room updated");
                     break;
