@@ -18,7 +18,19 @@ public class CommonUtils {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
-
+    public static String randomRoomName() {
+        String ALPHA_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String NUMERIC_STRING = "0123456789";
+        StringBuilder builder = new StringBuilder();
+        int count = 3;
+        int character = (int)(Math.random()*ALPHA_STRING.length());
+        builder.append(ALPHA_STRING.charAt(character));
+        while (count-- != 0) {
+        int charac = (int)(Math.random()*NUMERIC_STRING.length());
+        builder.append(NUMERIC_STRING.charAt(charac));
+        }
+        return builder.toString();
+        }
     public boolean validateJavaDate(String strDate) {
         /* Check if date is 'null' */
         if (strDate.trim().equals("")) {

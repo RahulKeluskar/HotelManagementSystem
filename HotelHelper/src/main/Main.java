@@ -206,8 +206,8 @@ public class Main {
             case 1:// Add Room
                 //paramateres to be added
 
-                System.out.println("Enter the room number : " );
-                String roomNumber = br.readLine();
+                // System.out.println("Enter the room number : " );
+                String roomNumber = CommonUtils.randomRoomName();
 
                 System.out.println("Enter the Room Price : ");
                 sc = new Scanner(System.in);
@@ -227,7 +227,7 @@ public class Main {
                 System.out.println("roomNumber: " + roomNumber);
                 System.out.println("roomPrice: " + roomPrice);
                 System.out.println("roomType: " + roomType);
-
+                System.out.println("room created with number: "+ roomNumber);
                 System.out.println("No reservations added for the room as of now.");
                 Vector<String> reservationId = new Vector<String>();
 
@@ -341,7 +341,7 @@ public class Main {
         RoomService roomSer= new RoomService();
         Vector<String> ReservedList;
         Date startDate,endDate;
-        System.out.print("1.Deluxe \n 2.Suite \n 3.NonAC \n 4.DoubleDeluxe");
+        System.out.println("1.Deluxe \n 2.Suite \n 3.NonAC \n 4.DoubleDeluxe");
         System.out.println("Select a type of room:  ");
         String input = br.readLine();
         while (true) 
@@ -365,7 +365,7 @@ public class Main {
             m1 = br.readLine();
             System.out.println("Enter the start year: ");
             y1 = br.readLine();
-            if(common.validateJavaDate(d1+"/"+m1+"/"+y1))
+            if(common.validateJavaDate(m1+"/"+d1+"/"+y1))
                 break;
             else
                 System.out.println("Enter a valid date ");
@@ -380,7 +380,7 @@ public class Main {
             m2 = br.readLine();
             System.out.println("Enter the end year: ");
             y2 = br.readLine();
-            if(common.validateJavaDate(d2+"/"+m2+"/"+y2))
+            if(common.validateJavaDate(m2+"/"+d2+"/"+y2))
             {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Integer.parseInt(y1),Integer.parseInt(m1),Integer.parseInt(d1)); // Year, month and day of month
@@ -444,11 +444,16 @@ public class Main {
             s.add(user.getAadharNo());
             String random = UUID.randomUUID().toString();
             Vector<String> ran = room.getReservationId();
-            resSer.addReservation(random,room.getId(), s, startDate, endDate);
+            roomReservationList.add(
+            resSer.addReservation(random,room.getRoomNumber(), s, startDate, endDate));
             roomSer.deleteRoom(room.getRoomNumber(), roomList, roomReservationList, false);
+            if(ran == null){
+                ran= new Vector<String>();
+            }
             ran.add(random);
             room.setReservationId(ran);
             roomList.add(room);
+            
         }
         else
         {
@@ -521,13 +526,14 @@ public class Main {
 
                 break;
             case 4:// View
-
+            rs.viewAllReservations(roomReservationList);
                 break;
             case 5:
                 System.out.println("Enter the reservation id for the reservation to be deleted");
                 String reservat = br.readLine();
                 ReservedRoom reserv = rs.deleteReservation(reservat, roomReservationList);
                 if (!reserv.getId().equals(null)) {
+                    roomReservationList.add(rs.enterModificationDetailsForReservedRoom(reserv));
 //                    roomReservationList.add(rs.enterModificationDetails(reserv));
                     System.out.println("User updated");
                     break;
@@ -550,5 +556,5 @@ public class Main {
 
     }
 
-
+    
 }
