@@ -1,13 +1,25 @@
 package entities;
 
-public class Payment {
+import java.io.Serializable;
+
+public class Payment implements Serializable {
     private String id;
     private String userId;
+    private float amount;
     private String upiAddress;
     private String cardNumber;
 
+
     public String getId() {
         return id;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
     public void setId(String id) {

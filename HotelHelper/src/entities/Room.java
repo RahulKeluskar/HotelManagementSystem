@@ -1,8 +1,9 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Room {
+public class Room implements Serializable {
     private String id;
     private String roomNumber;
     private Float roomPrice;

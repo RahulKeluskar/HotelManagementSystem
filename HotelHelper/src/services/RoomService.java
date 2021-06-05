@@ -5,6 +5,7 @@ import entities.ReservedRoom;
 import entities.Room;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -25,9 +26,19 @@ public class RoomService {
 
     }
 
+    public Room findRoomById(String id){
+        FileHandler fileHandler = new FileHandler();
+        return fileHandler.findSingleRoomById(id);
+
+    }
+
     public Room addRoomwithIdOnly() {
         Room newroom = new Room(UUID.randomUUID().toString());
-        FileHandler.insertSingleRoomIntoFile(newroom);
+        try {
+            FileHandler.insertSingleRoomIntoFile(newroom);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return newroom;
     }
 
@@ -35,7 +46,15 @@ public class RoomService {
     public Room addRoomwithAllDetails(String roomNumber, Float roomPrice, String roomType, String currentReservationIds,
                                       Vector<String> reservationId) {
         Room newroom = new Room(UUID.randomUUID().toString(), roomNumber, roomPrice, roomType, currentReservationIds, reservationId);
+
+        try {
+            FileHandler.insertSingleRoomIntoFile(newroom);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // FileHandler.insertSingleRoomIntoFile(newroom);
+
         return newroom;
     }
 

@@ -5,14 +5,14 @@ import entities.Payment;
 import entities.ReservedRoom;
 import entities.Room;
 import entities.User;
+import services.PaymentService;
 import services.ReservationService;
 import services.RoomService;
 import services.UserService;
 import util.CommonUtils;
 import util.Constants;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -20,16 +20,20 @@ import java.util.Vector;
 import java.util.*;
 
 public class Main {
-    public static void main(String args[]) throws IOException {
-        Main menuObject = new Main();
-
-        menuObject.run();
-    }
-
     Vector<User> userList;
     Vector<Room> roomList;
     Vector<Payment> paymentList;
     Vector<ReservedRoom> roomReservationList;
+
+    public static void main(String args[]) throws IOException {
+        Main menuObject = new Main();
+        menuObject.userList = new Vector<>();
+
+        menuObject.paymentList = new Vector<>();
+        menuObject.run();
+    }
+
+
 
     BufferedReader br = new BufferedReader(new java.io.InputStreamReader((System.in)));
 
@@ -37,7 +41,10 @@ public class Main {
         FileHandler fh = new FileHandler();
         userList = new Vector<User>(fh.retrieveAllUsers());
         roomList = new Vector<Room>(fh.retrieveAllRooms());
-        roomReservationList = new Vector<ReservedRoom>(fh.readReservationFile());
+
+
+        roomReservationList = new Vector<ReservedRoom>(fh.readReservationFile(""));
+
     }
 
     public String getMainMenuString(){
@@ -297,11 +304,28 @@ public class Main {
 
     }
 
+
+
     public void checkout() throws IOException {
         System.out.println("Enter the room number for which you want to checkout");
         String a = br.readLine();
+        PaymentService payment = new PaymentService();
+
         for (int i = 0; i < roomList.size(); i++) {
             if (roomList.get(i).getRoomNumber().equalsIgnoreCase(a)) {
+                System.out.println("Before proceeding please enter your user-id");
+                String userId = null;
+                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
+                    userId = bufferedReader.readLine();
+                    while(userId == null){
+                        System.out.println("Please enter a valid userId");
+                        userId = bufferedReader.readLine();
+                    }
+                } catch (IOException e) {
+                   System.out.println("Please enter a valid input");
+                }
+                String currentReservationId = roomList.get(i).getCurrentReservationId();
+                payment.completePayment(currentReservationId, (new ReservedRoom()).getPriceForUser(),userId);
                 roomList.get(i).setCurrentReservationId("");
                 break;
             }
@@ -418,7 +442,7 @@ public class Main {
             userList.add(user);
             Vector<String> s = new Vector<String>();
             s.add(user.getAadharNo());
-            var random = UUID.randomUUID().toString();
+            String random = UUID.randomUUID().toString();
             Vector<String> ran = room.getReservationId();
             roomReservationList.add(
             resSer.addReservation(random,room.getRoomNumber(), s, startDate, endDate));
@@ -510,6 +534,7 @@ public class Main {
                 ReservedRoom reserv = rs.deleteReservation(reservat, roomReservationList);
                 if (!reserv.getId().equals(null)) {
                     roomReservationList.add(rs.enterModificationDetailsForReservedRoom(reserv));
+//                    roomReservationList.add(rs.enterModificationDetails(reserv));
                     System.out.println("User updated");
                     break;
                 }

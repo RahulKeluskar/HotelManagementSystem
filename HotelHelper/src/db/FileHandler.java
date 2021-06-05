@@ -3,7 +3,7 @@ package db;
 import entities.Room;
 import entities.User;
 import util.Constants;
-
+import entities.Payment;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class FileHandler implements java.io.Serializable{
             e.printStackTrace();
         }
     }
-	public Vector<ReservedRoom> readReservationFile()
+	public Vector<ReservedRoom> readReservationFile(String file)
 	{
 		String fileName= "reservations";
         Vector<ReservedRoom>  res= new Vector<ReservedRoom>();
@@ -133,8 +133,8 @@ public class FileHandler implements java.io.Serializable{
 
   
    public static void insertUsersIntoFile(List<User> users){
-        try(ObjectOutputStream oos =
-                new ObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
+        try(AppendableObjectOutputStream oos =
+                new AppendableObjectOutputStream(new FileOutputStream(".\\Users.txt", true))) {
             for(User user: users)
             {
                 oos.writeObject(user);
@@ -162,9 +162,20 @@ public class FileHandler implements java.io.Serializable{
             e.printStackTrace();
         }
     }
-    public static void insertSingleRoomIntoFile(Room room){
+    public static void insertSingleRoomIntoFile(Room room) throws IOException {
+        File tmpDir = new File("Rooms.txt");
+        boolean exists = tmpDir.exists();
+
+        if(!exists) {
+            tmpDir.createNewFile();
+            ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(tmpDir));
+            fos.writeObject(room);
+            System.out.println("Created file and inserted entry");
+            fos.flush();
+            fos.close();
+        }
         try(AppendableObjectOutputStream oos =
-                    new AppendableObjectOutputStream(new FileOutputStream(".\\Rooms.txt", true))) {
+                    new AppendableObjectOutputStream(new FileOutputStream("Rooms.txt", true))) {
             oos.writeObject(room);
             System.out.println("Successfully Inserted");
             oos.flush();
@@ -223,7 +234,7 @@ public class FileHandler implements java.io.Serializable{
     public static Vector<Room> retrieveAllRooms() {
         Vector<Room> roomList = new Vector<Room>();
         try {
-            FileInputStream fis = new FileInputStream(new File(".\\Rooms.txt"));
+            FileInputStream fis = new FileInputStream(new File("Rooms.txt"));
             ObjectInputStream ois = new ObjectInputStream(fis);
             while (true) {
                 Room ob = (Room) ois.readObject();
@@ -242,12 +253,86 @@ public class FileHandler implements java.io.Serializable{
         return roomList;
     }
 
+
+    public Room findSingleRoomById(String id){
+        try {
+            FileInputStream fis = new FileInputStream(new File("Rooms.txt"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                Room ob = (Room) ois.readObject();
+                if (ob != null) {
+                    if(ob.getId().equals(id)){
+                        return ob;
+                    }
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return null;
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+    public ReservedRoom findSingleReservationById(String id){
+        try {
+            FileInputStream fis = new FileInputStream(new File(".\\reservation.ser"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            while (true) {
+                ReservedRoom ob = (ReservedRoom) ois.readObject();
+                if (ob != null) {
+                    if(ob.getId().equals(id)){
+                        return ob;
+                    }
+                } else
+                    break;
+
+            }
+            fis.close();
+            ois.close();
+            return null;
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+    public void insertPaymentInfo(){
+
+    }
+
     public static User updateUser(String id){
         return null;
     }
 
     public static User deleteUser(String id){
         return null;
+    }
+
+    public void insertPayment(Payment payment) throws IOException {
+        File tmpDir = new File("Payment.txt");
+        boolean exists = tmpDir.exists();
+
+        if(!exists) {
+            tmpDir.createNewFile();
+            ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(tmpDir));
+            fos.writeObject(payment);
+            System.out.println("Created file and inserted entry");
+            fos.flush();
+            fos.close();
+        }
+        try(AppendableObjectOutputStream oos =
+                    new AppendableObjectOutputStream(new FileOutputStream("Payment.txt", true))) {
+            oos.writeObject(payment);
+            System.out.println("Successfully Inserted");
+            oos.flush();
+            oos.reset();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
